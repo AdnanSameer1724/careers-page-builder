@@ -68,16 +68,16 @@ export default function JobsManager({ companyId, initialJobs }: JobsManagerProps
       })
 
       if (response.ok) {
-        alert('✅ Job saved!')
+        alert('Job saved!')
         setIsDialogOpen(false)
         router.refresh()
       } else {
         const data = await response.json()
-        alert(`❌ Failed: ${data.error || 'Unknown error'}`)
+        alert(`Failed: ${data.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error(error)
-      alert('❌ Error occurred')
+      alert('Error occurred')
     }
   }
 
@@ -87,15 +87,15 @@ export default function JobsManager({ companyId, initialJobs }: JobsManagerProps
     try {
       const response = await fetch(`/api/jobs/${id}`, { method: 'DELETE' })
       if (response.ok) {
-        alert('✅ Job deleted!')
+        alert('Job deleted!')
         router.refresh()
       } else {
         const data = await response.json()
-        alert(`❌ Failed: ${data.error || 'Unknown error'}`)
+        alert(`Failed: ${data.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error(error)
-      alert('❌ Error occurred')
+      alert('Error occurred')
     }
   }
 
@@ -105,7 +105,6 @@ export default function JobsManager({ companyId, initialJobs }: JobsManagerProps
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
-              <Briefcase className="w-5 h-5" />
               Job Listings
             </CardTitle>
             <CardDescription>Manage open positions</CardDescription>
@@ -202,7 +201,7 @@ export default function JobsManager({ companyId, initialJobs }: JobsManagerProps
                   variant="outline" 
                   size="sm"
                   onClick={() => openDialog(job)}
-                  className="text-blue-600 hover:text-blue-700"
+                  className="text-white hover:text-[#1f1f2b] hover:bg-white"
                 >
                   Edit
                 </Button>
@@ -210,7 +209,7 @@ export default function JobsManager({ companyId, initialJobs }: JobsManagerProps
                   variant="destructive" 
                   size="sm"
                   onClick={() => handleDelete(job.id)}
-                  className='text-black'
+                  className='text-black hover:text-red-500 cursor-pointer'
                 >
                   Delete
                 </Button>

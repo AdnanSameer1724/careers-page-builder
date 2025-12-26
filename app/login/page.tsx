@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -15,6 +16,25 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
 
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [message, setMessage] = useState('')
+
+  const images = [
+    '/slide1.jpg',
+    '/slide2.jpg',
+    '/slide3.jpg',
+  ]
+
+  const [currentImage, setCurrentImage] = useState(0)
+
+   useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length)
+    }, 3500)
+    return () => clearInterval(interval)
+  }, [])
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -28,7 +48,7 @@ export default function LoginPage() {
           password,
         })
         if (error) throw error
-        alert('✅ Account created! Please log in.')
+        alert('Account created! Please log in.')
         setIsSignUp(false)
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -40,60 +60,135 @@ export default function LoginPage() {
         router.refresh()
       }
     } catch (error: any) {
-      alert(`❌ ${error.message}`)
+      alert(`${error.message}`)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>{isSignUp ? 'Create Account' : 'Recruiter Login'}</CardTitle>
-          <CardDescription>
-            {isSignUp ? 'Sign up to manage your careers page' : 'Access your company dashboard'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleAuth} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="recruiter@company.com"
-                required
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-[#1f1f2b] text-white">
+
+      {/* ================= LEFT IMAGE SECTION ================= */}
+      <div className="relative hidden md:block m-8">
+        <Image
+          src={images[currentImage]}
+          alt="Auth image"
+          fill
+          priority
+          className="object-cover transition-opacity duration-700 rounded-2xl"
+        />
+
+        <div className="absolute bottom-10 left-10 max-w-md">
+          <h2 className="text-3xl font-semibold leading-snug">
+            Capturing Moments,<br />Creating Memories
+          </h2>
+
+          <div className="flex gap-2 mt-4">
+            {images.map((_, index) => (
+              <span
+                key={index}
+                className={`h-1.5 w-8 rounded-full transition-all ${
+                  index === currentImage ? 'bg-white' : 'bg-white/40'
+                }`}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                minLength={6}
-              />
-            </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Log In'}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full"
-              onClick={() => setIsSignUp(!isSignUp)}
-            >
-              {isSignUp ? 'Already have an account? Log in' : 'Need an account? Sign up'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ================= RIGHT FORM SECTION ================= */}
+      <div className="flex px-6 m-12">
+        <div className="w-full max-w-md space-y-6">
+
+          {/* Header */}
+          <div className='my-12'>
+            <h1 className="text-6xl font-bold mb-4">
+              {isSignUp ? 'Create an account' : 'Log in'}
+            </h1>
+            <p className="text-sm text-gray-400 mt-1">
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+              <button
+                type="button"
+                className="ml-1 underline cursor-pointer"
+                onClick={() => {
+                  setIsSignUp(!isSignUp)
+                  setMessage('')
+                }}
+              >
+                {isSignUp ? 'Log in' : 'Sign up'}
+              </button>
+            </p>
+          </div>
+
+          {/* Form */}
+<form onSubmit={handleAuth} className="space-y-4">
+
+  {isSignUp && (
+    <div className="grid grid-cols-2 gap-3 text-black">
+      <input
+        type="text"
+        placeholder="First name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        required
+        className="auth-input my-4 w-full h-10 bg-white p-4 rounded-lg"
+      />
+      <input
+        type="text"
+        placeholder="Last name"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        required
+        className="auth-input my-4 w-full h-10 bg-white p-4 rounded-lg"
+      />
+    </div>
+  )}
+
+  {/* Email */}
+  <div className="w-full text-black">
+    <input
+      type="email"
+      placeholder="Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+      className="auth-input my-4 w-full h-10 bg-white p-4 rounded-lg"
+    />
+  </div>
+
+  {/* Password */}
+  <div className="w-full text-black">
+    <input
+      type="password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+      minLength={6}
+      className="auth-input my-4 w-full h-10 bg-white p-4 rounded-lg"
+    />
+  </div>
+
+  {message && (
+    <p className="text-sm text-center">{message}</p>
+  )}
+
+  <button
+    type="submit"
+    disabled={loading}
+    className="w-full bg-[#6b5cff] hover:bg-[#5a4be0] transition py-3 rounded-lg font-medium disabled:opacity-60 cursor-pointer"
+  >
+    {loading
+      ? 'Please wait...'
+      : isSignUp
+      ? 'Create account'
+      : 'Log in'}
+  </button>
+</form>
+
+        </div>
+      </div>
     </div>
   )
 }

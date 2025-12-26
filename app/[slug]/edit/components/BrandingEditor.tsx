@@ -41,14 +41,14 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
       })
 
       if (response.ok) {
-        alert('✅ Branding updated successfully!')
+        alert('Branding updated successfully!')
         router.refresh()
       } else {
-        alert('❌ Failed to update branding')
+        alert('Failed to update branding')
       }
     } catch (error) {
       console.error('Error updating branding:', error)
-      alert('❌ An error occurred')
+      alert('An error occurred')
     } finally {
       setLoading(false)
     }
@@ -59,7 +59,6 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Palette className="w-5 h-5" />
             Brand Identity
           </CardTitle>
           <CardDescription>
@@ -76,6 +75,7 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Your Company Name"
               required
+              className="w-full h-10 bg-white p-4 rounded-lg"
             />
           </div>
 
@@ -87,6 +87,7 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
               value={formData.tagline}
               onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
               placeholder="A catchy tagline for your company"
+              className="w-full h-10 bg-white p-4 rounded-lg"
             />
           </div>
 
@@ -136,7 +137,6 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
           {/* Logo URL */}
           <div className="space-y-2">
             <Label htmlFor="logo" className="flex items-center gap-2">
-              <ImageIcon className="w-4 h-4" />
               Logo URL
             </Label>
             <Input
@@ -145,6 +145,7 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
               value={formData.logo_url}
               onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
               placeholder="https://example.com/logo.png"
+              className="w-full h-10 bg-white p-4 rounded-lg"
             />
             {formData.logo_url && (
               <div className="mt-2 p-4 bg-gray-50 rounded-lg">
@@ -163,7 +164,6 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
           {/* Banner URL */}
           <div className="space-y-2">
             <Label htmlFor="banner" className="flex items-center gap-2">
-              <ImageIcon className="w-4 h-4" />
               Banner Image URL
             </Label>
             <Input
@@ -172,6 +172,7 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
               value={formData.banner_image_url}
               onChange={(e) => setFormData({ ...formData, banner_image_url: e.target.value })}
               placeholder="https://example.com/banner.jpg"
+              className="w-full h-10 bg-white p-4 rounded-lg"
             />
             {formData.banner_image_url && (
               <div className="mt-2 p-4 bg-gray-50 rounded-lg">
@@ -199,6 +200,7 @@ export default function BrandingEditor({ company }: BrandingEditorProps) {
               value={formData.culture_video_url}
               onChange={(e) => setFormData({ ...formData, culture_video_url: e.target.value })}
               placeholder="https://www.youtube.com/embed/..."
+              className="w-full h-10 bg-white p-4 rounded-lg"
             />
             <p className="text-xs text-gray-500">
               Use the embed URL format for YouTube or Vimeo videos

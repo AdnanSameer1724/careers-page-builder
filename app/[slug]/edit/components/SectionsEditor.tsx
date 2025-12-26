@@ -81,14 +81,14 @@ export default function SectionsEditor({ companyId, initialSections }: SectionsE
       </CardHeader>
       <CardContent className="space-y-4">
         {sections.map((section, index) => (
-          <div key={section.id} className="border rounded-lg p-4 space-y-3 bg-white">
+          <div key={section.id} className="border rounded-lg px-4 space-y-3 bg-[#1f1f2b] text-white py-8">
             <div className="flex items-start gap-3">
               <div className="flex flex-col gap-1 pt-2">
                 <button
                   type="button"
                   onClick={() => moveSection(index, 'up')}
                   disabled={index === 0}
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded disabled:opacity-30 text-lg font-bold"
+                  className="w-8 h-8 flex items-center justify-center hover:bg-black rounded-4xl disabled:opacity-30 text-lg font-bold cursor-pointer"
                   title="Move up"
                 >
                   ↑
@@ -97,7 +97,7 @@ export default function SectionsEditor({ companyId, initialSections }: SectionsE
                   type="button"
                   onClick={() => moveSection(index, 'down')}
                   disabled={index === sections.length - 1}
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded disabled:opacity-30 text-lg font-bold"
+                  className="w-8 h-8 flex items-center justify-center hover:bg-black rounded-4xl disabled:opacity-30 text-lg font-bold cursor-pointer"
                   title="Move down"
                 >
                   ↓
@@ -124,7 +124,7 @@ export default function SectionsEditor({ companyId, initialSections }: SectionsE
                 variant="destructive"
                 size="sm"
                 onClick={() => deleteSection(section.id)}
-                className="mt-2 text-black"
+                className="mt-2 text-white"
               >
                 Delete
               </Button>

@@ -21,9 +21,6 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <div className="flex justify-center mb-6">
-              <div className="bg-blue-600 p-4 rounded-2xl">
-                <Briefcase className="w-12 h-12 text-white" />
-              </div>
             </div>
             <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 mb-6">
               Careers Page Builder
